@@ -1,0 +1,54 @@
+apiversion: apps/v1 
+kind: Deployment
+metadata:
+  name: phpdeploy
+  labels:
+    name: php-deploy
+spec:
+  replicas: 1
+  selector:
+    matchlabels:
+      app: php
+  template: 
+    metadata:
+      name: php pod 
+      labels:
+        app: php
+    spec:
+      containers:
+        - name: phpcon 
+          image: vimal13/apache-webserver-php
+          volumeMounts:
+            - name: phpvol 
+              mountPath: /var/www/html
+          volumes: 
+            - name: php vol
+              persistentvolumeclaim: 
+                claimName: phppvc
+
+--------
+apiversion: v1
+kind: Persistentvolumeclaim
+metadata:
+  name: php pvc
+  labels:
+    name: php-pvc
+spec:
+  accessModes :
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 1Gi
+------
+apiversion: v1
+kind: Service 
+metadata:
+  name: phpservice
+spec:
+  selector:
+    app: php
+  ports:
+    - port: 81
+      targetPort: 80
+      nodePort: 31000
+  type: NodePort
