@@ -1,0 +1,12 @@
+apiversion: v1
+kind: PersistentVolumeClaim 
+metadata: 
+  name: html-pv-claim
+  labels: 
+    app: web-html
+spec: 
+  accessModes:
+    - ReadwriteOnce 
+  resources:
+    requests:
+      storage: 100Mi

@@ -1,0 +1,12 @@
+apiversion: v1
+kind: PersistentVolumeClaim 
+metadata: 
+  name: php-pv-claim
+  labels: 
+    app: web-php
+spec: 
+  accessModes:
+    - ReadwriteOnce 
+  resources:
+    requests:
+      storage: 100Mi
